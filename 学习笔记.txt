@@ -1,0 +1,68 @@
+本地VUE开发购物车,没有运用webpack启动服务,进行vue-resource数据交互
+
+1,熟悉了vue2.0的指令 
+   v-for基于源数据多次渲染元素或模板块,
+   v-bind动态地绑定一个或多个特性，或一个组件 prop 到表达式,(demo里面更多的绑定了class,根据布尔变量进行添加class)
+   v-on绑定事件监听器(demo里面绑定click监听)
+   v-model在表单控件或者组件上创建双向绑定
+
+   v-text更新元素的textContent(也可以用{{变量}}形式展现)
+      -  v-text问题:在{{变量}}里面添加了过滤器,但是在v-text里面没找到如何添加过滤器?
+     (为什么用v-text显示页面数据,加载数据渲染过程如果数据未插入,但是进行页面渲染可能会渲染出{{变量}},是否保证生命周期的数据插入就可以无顾忌的用{{变量}}而不用v-text?)
+
+2,熟悉vue2.0的js
+   -1,data   Vue 实例的数据对象
+   -2,methos Vue数据处理的函数
+   // 疑问箭头函数改变了this作用域不需要之前用_this捕捉this?原理......继承了外围作用域的this值。
+
+3,原型链
+   JavaScript对每个创建的对象都会设置一个原型，指向它的原型对象。
+
+   当我们用obj.xxx访问一个对象的属性时，JavaScript引擎先在当前对象上查找该属性，如果没有找到，就到其原型对象上找，如果还没有找到，就一直上溯到Object.prototype对象，最后，如果还没有找到，就只能返回undefined。
+
+   js里面一切皆对象
+
+   arr ----> Array.prototype ----> Object.prototype ----> null
+   Array.prototype定义了indexOf()、shift()等方法，因此你可以在所有的Array对象上直接调用这些方法。
+
+   普通函数:
+      function putong(){}
+      原型链为 putong > Function.prototype > Object.prototype ----> null
+
+   构造函数:
+      function Student(name) {
+         this.name = name;
+         this.hello = function () {
+            alert('Hello, ' + this.name + '!');
+         }
+      }
+
+      关键字new来调用这个函数，并返回一个对象：
+      var xiaoming = new Student('小明');
+      xiaoming.name; // '小明'
+      xiaoming.hello(); // Hello, 小明!
+      用new Student()创建的对象还从原型上获得了一个constructor属性，它指向函数Student本身：
+
+      xiaoming ↘
+      xiaohong -→ Student.prototype ----> Object.prototype ----> null
+      xiaojun  ↗
+
+      xiaoming、xiaohong这些对象“继承”自Student;
+
+      如果我们通过new Student()创建了很多对象，这些对象的hello函数实际上只需要共享同一个函数就可以了，这样可以节省很多内存。
+      要让创建的对象共享一个hello函数，根据对象的属性查找原则，我们只要把hello函数移动到xiaoming、xiaohong这些对象共同的原型上就可以了，也就是Student.prototype：
+
+      function Student(name) {
+         this.name = name;
+      }
+
+      Student.prototype.hello = function () {
+         alert('Hello, ' + this.name + '!');
+      };
+
+4,闭包
+   闭包还有点晕,
+   作用:
+    4.1可以访问上层函数的变量
+    4.2匿名函数不污染全局
+    4.3闭包，封装私有变量
